@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="card box-shadow m-2 from-w">
+            <a href="/">
+                <button class="btn btn-primary">Назад</button>
+            </a>
+            <div class="card-header text-center">
+                <h3> Выберите </h3>
+                <a href="/differentiator/fir">
+                    <button class="btn btn-primary">Первого порядка</button>
+                </a>
+
+                <a href="/differentiator/sec">
+                    <button class="btn btn-primary">Второго порядка</button>
+                </a>
+
+                <a href="/differentiator/sis">
+                    <button class="btn btn-primary">Система</button>
+                </a>
+    </div>
+</div>
+
+
+{% endblock %}

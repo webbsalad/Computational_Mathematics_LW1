@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="card box-shadow m-2 from-w">
+                <a href="/">
+                    <button class="btn btn-primary">Назад</button>
+                </a>
+                <div class="card-header text-center">
+                    <h3> Вычисление Интеграла </h3>
+                </div>
+                <form id="form" class="p-3" action='' method="POST">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-4 mb-0">
+                            <label for="met">Метод вычисления:</label>
+                            <select class="form-control" id="met" name="calculation-method" value="{{ met }}">
+                                {% for curr in calc_method %}
+                                    <option value="{{ curr }}" {% if met == curr %}selected{% endif %}>{{ curr }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>                        
+                        <script>
+                            var selectElement = document.getElementById("met");
+                            selectElement.addEventListener("change", function () {
+                                var selectedValue = this.value;
+                                var dopLow = document.getElementById("dop_low");
+                                var dopUp = document.getElementById("dop_up");
+                                var dopX = document.getElementById("dop_x");
+                                var dopY = document.getElementById("dop_y");
+                                if (selectedValue === "Кратный") {
+                                    dopLow.style.display = "block";
+                                    dopUp.style.display = "block";
+                                    dopX.style.display = "block";
+                                    dopY.style.display = "block";
+                                } else {
+                                    dopLow.style.display = "none";
+                                    dopUp.style.display = "none";
+                                    dopX.style.display = "none";
+                                    dopY.style.display = "none";
+                                }
+                            });
+                        </script>
+                        
+
+                        <div class="form-group col-md-4 mb-0">
+                            <label for="alg">Алгоритм вычисления:</label>
+                            <select class="form-control" id="alg" name="calculation-algoritm" value="{{ alg }}">
+                                {% for curr in calc_alg %}
+                                    <option value="{{ curr }}" {% if alg == curr %}selected{% endif %}>{{ curr }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group col-md-4 mb-0">
+                            <label for="func">Функция f(x):</label>
+                            <input id='func' title="При вводе функции за неизвестный элемент возьмите x" type="text" class="form-control" placeholder="Введите функцию" {% if func %} value="{{ func }}" {% endif %} name="function">
+                        </div>
+
+                        <div class="form-group col-md-4 mb-0">
+                            <label for="lower_lim">Нижний предел:</label>
+                            <input id='lower_lim' type="text" class="form-control" placeholder="Введите число" {% if low_lim %} value="{{ low_lim }}" {% endif %} name="first-limit">
+                        </div>
+                        
+                        <div class="form-group col-md-4 mb-0">
+                            <label for="upper_lim">Верхний предел:</label>
+                            <input id='upper_lim' type="text" class="form-control" placeholder="Введите число" {% if up_lim %} value="{{ up_lim }}" {% endif %} name="second-limit">
+                        </div>
+                        
+                        <div id="dop_low" class="form-group col-md-4 mb-0" style="display: none;">
+                            <label for="dop_lower_lim">Дополнительный нижний предел:</label>
+                            <input id="dop_lower_lim" type="text" class="form-control" placeholder="Введите число" {% if dop_low_lim %}value="{{ dop_low_lim }}"{% endif %} name="dop-first-limit">
+                        </div>
+
+                        <div id="dop_up" class="form-group col-md-4 mb-0" style="display: none;">
+                            <label for="dop_lower_lim">Дополнительный верхний предел:</label>
+                            <input id="dop_upper_lim" type="text" class="form-control" placeholder="Введите число" {% if dop_up_lim %}value="{{ dop_up_lim }}"{% endif %} name="dop-second-limit">
+                        </div>
+
+                        <div id="dop_x" class="form-group col-md-4 mb-0" style="display: none;">
+                            <label for="dop_x">Дополнительные разбиения x:</label>
+                            <input id="dop_x" type="text" class="form-control" placeholder="Введите число" {% if dop_x %}value="{{ dop_x }}"{% endif %} name="dop-x">
+                        </div>
+
+                        <div id="dop_y" class="form-group col-md-4 mb-0" style="display: none;">
+                            <label for="dop_y">Дополнительные разбиения y:</label>
+                            <input id="dop_y" type="text" class="form-control" placeholder="Введите число" {% if dop_y %}value="{{ dop_y }}"{% endif %} name="dop-y">
+                        </div>
+
+                        <div class="form-group col-md-4 mb-0">
+                            <label for="pieces">Колличество разбиений:</label>
+                            <input id='pieces' type="number" class="form-control" placeholder="Введите число" {% if pieces %} value="{{ pieces }}" {% endif %} name="count-pieces">
+                        </div>
+
+                    </div>
+                    <hr>
+                    {% if ans %}
+                        <div class="card col-6 p-0 m-auto">
+                            <div class="card-header text-center">
+                            <div class="card-body">
+                                <br>Ответ:</br>
+                                {{ ans }}
+
+                                {% if hel %}
+                                <div class="button">
+                                    <button name="graph" id="gr" type="submit" class="btn btn-primary">Показать график</button>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <br>
+                    <div class="submit-btn mt-3">
+                        <button name="sub" id="conv" type="submit" class="btn btn-primary">Рассчитать</button>
+                    </div>
+                    </br>
+                </form>
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

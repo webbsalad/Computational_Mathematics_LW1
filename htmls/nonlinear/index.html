@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="card box-shadow m-2 from-w">
+            <a href="/">
+                <button class="btn btn-primary">Назад</button>
+            </a>
+            <div class="card-header text-center">
+                <h3> Вычисление нелинейного уравнения </h3>
+            </div>
+
+            <form id="form" class="p-3" action='' method="POST">
+                {% csrf_token %}
+                <div class="form-row"> <!--бокс с данными-->
+                    <div class="form-group col-md-4 mb-0">
+                        <label for="met">Метод вычисления:</label>
+                        <select class="form-control" id="met" name="calculation-method" value="{{ met }}">
+                            {% for curr in calc_method %}
+                                <option value="{{ curr }}" {% if met == curr %}selected{% endif %}>{{ curr }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                
+                    <div class="form-group col-md-4 mb-0">
+                        <label for="func">Функция f(x):</label>
+                        <input id='func' title="При вводе функции за неизвестные элемент возьмите x и y" type="text" class="form-control" placeholder="Введите функцию" {% if func %} value="{{ func }}" {% endif %} name="function">
+                    </div>
+
+                    <div class="form-group col-md-4 mb-0">
+                        <label for="lower_lim">Начало вычисления:</label>
+                        <input id='lower_lim' type="text" class="form-control" placeholder="Введите число" {% if low_lim %} value="{{ low_lim }}" {% endif %} name="first-limit">
+                    </div>
+                    
+                    <div class="form-group col-md-4 mb-0">
+                        <label for="upper_lim">Конец вычисления:</label>
+                        <input id='upper_lim' type="text" class="form-control" placeholder="Введите число" {% if up_lim %} value="{{ up_lim }}" {% endif %} name="second-limit">
+                    </div>
+
+                    <div class="form-group col-md-4 mb-0">
+                        <label for="pieces">Точность:</label>
+                        <input id='pieces' type="number" class="form-control" placeholder="Введите число" {% if pieces %} value="{{ pieces }}" {% endif %} name="count-pieces">
+                    </div>
+                </div>
+
+                <hr>
+                
+                {% if ans %}
+                    <div class="card col-6 p-0 m-auto">
+                        <div class="card-header text-center">
+                        <div class="card-body">
+                            <br>Ответ:
+                            <div id="ans-text" class="scrollable-list">
+                                {{ ans }}
+                            </div>
+                            
+                            
+                        </div>
+                        
+                        <div class="button">
+                            <button onclick="copyToClipboard()" name="copy" id="copy" type="submit" class="btn copy-button"></button>
+                        </div>
+                        <script>
+                            function copyToClipboard() {
+                                var ansText = document.getElementById('ans-text').innerText;
+                                var tempTextarea = document.createElement('textarea');
+                              
+                                tempTextarea.value = ansText;
+                                document.body.appendChild(tempTextarea);
+                                tempTextarea.select();
+                                document.execCommand('copy');
+                                document.body.removeChild(tempTextarea);
+                            }
+                        </script>
+                        
+                        <br><br><br>
+                        <div class="button">
+                            <button name="graph" id="gr" type="submit" class="btn btn-primary">Показать график</button>
+                        </div>
+
+                    </div>
+                {% endif %}
+
+                <div class="submit-btn mt-3">
+                    <button name="sub" id="conv" type="submit" class="btn btn-primary">Рассчитать</button>
+                </div>
+                </br>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

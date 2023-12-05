@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="card box-shadow m-2 from-w">
+            <div class="card-header text-center">
+                <h3> Выберите </h3>
+                <a href="/integration">
+                    <button class="btn btn-primary">Интегрировать</button>
+                </a>
+
+                <a href="/differentiator">
+                    <button class="btn btn-primary">Диффур</button>
+                </a>
+
+                <a href="/nonlinear">
+                    <button class="btn btn-primary">Нелинейное</button>
+                </a>
+            </div>
+            <a href="#" class="text-center">
+                <button class="btn btn-primary" onclick="showGroupImage()">Состав группы</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showGroupImage() {
+        var img = document.createElement('img');
+        img.classList.add('rotate');
+        img.src = '/static/img/group.png';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.position = 'fixed';
+        img.style.top = '0';
+        img.style.left = '0';
+        img.style.zIndex = '9999';
+        img.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        img.style.objectFit = 'contain';
+        img.onclick = function() {
+            img.parentNode.removeChild(img);
+            };
+        document.body.appendChild(img);
+    }
+</script>
+{% endblock %}
